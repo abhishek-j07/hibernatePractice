@@ -37,5 +37,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### CONFIG FILE
+### CONFIG FILE ignore
 !**/src/main/resources/hibernate.cfg.xml
