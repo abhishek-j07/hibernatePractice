@@ -17,6 +17,8 @@ public class Main {
         config.configure("hibernate.cfg.xml");
         config.addAnnotatedClass(Students.class);
         config.addAnnotatedClass(StudentAddress.class);
+        config.addAnnotatedClass(Answer.class);
+        config.addAnnotatedClass(Question.class);
 
         SessionFactory factory = config.buildSessionFactory();
         Session session = factory.openSession();
@@ -27,7 +29,9 @@ public class Main {
 
         //imageDemo(session);
 
-        embedDemo(session);
+        //embedDemo(session);
+
+        oneToOneMapping(session);
 
         transaction.commit();
 
@@ -103,5 +107,19 @@ public class Main {
         students.setCertificate(certificate);
 
         session.persist(students);
+    }
+
+    private static void oneToOneMapping(Session session) {
+
+        Question question = new Question();
+        question.setQuestion("What is JAVA?");
+
+        Answer answer = new Answer();
+        answer.setAnswer("Java is a programming language");
+
+        question.setAnswer(answer);
+
+        session.persist(answer);
+        session.persist(question);
     }
 }
