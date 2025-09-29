@@ -15,7 +15,7 @@ public class Main {
 
         Configuration config = new Configuration();
         config.configure("hibernate.cfg.xml");
-        //config.addAnnotatedClass(Students.class);
+        config.addAnnotatedClass(Students.class);
         config.addAnnotatedClass(StudentAddress.class);
 
         SessionFactory factory = config.buildSessionFactory();
@@ -26,6 +26,8 @@ public class Main {
         //crudOps(session);
 
         //imageDemo(session);
+
+        embedDemo(session);
 
         transaction.commit();
 
@@ -84,5 +86,22 @@ public class Main {
         //remove/delete
         Students s2 = session.find(Students.class, 103);
         session.remove(s2);
+    }
+
+    private static void embedDemo(Session session) {
+
+        Students students = new Students();
+        students.setFirstName("Aditya");
+        students.setLastName("M");
+        students.setAge(29);
+        students.setTech("AI");
+
+        Certificate certificate = new Certificate();
+        certificate.setCourse("AI/ML");
+        certificate.setDuration(3);
+
+        students.setCertificate(certificate);
+
+        session.persist(students);
     }
 }

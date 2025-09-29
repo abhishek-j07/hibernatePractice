@@ -1,0 +1,30 @@
+package com.orm;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class Certificate {
+
+    @Column(name = "COURSE")
+    String course;
+
+    @Column(name = "DURATION")
+    int duration;
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+}

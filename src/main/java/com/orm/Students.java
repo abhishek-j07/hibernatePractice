@@ -1,9 +1,6 @@
 package com.orm;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Students")
@@ -11,6 +8,7 @@ public class Students {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "FIRST_NAME")
@@ -25,7 +23,7 @@ public class Students {
     @Column(name = "TECH")
     private String tech;
 
-    @Column(name = "")
+   private Certificate certificate;
 
     public int getId() {
         return id;
@@ -65,6 +63,14 @@ public class Students {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Certificate getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(Certificate certificate) {
+        this.certificate = certificate;
     }
 
     @Override
