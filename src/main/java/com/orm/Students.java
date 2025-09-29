@@ -25,6 +25,8 @@ public class Students {
     @Column(name = "TECH")
     private String tech;
 
+    @Column(name = "")
+
     public int getId() {
         return id;
     }
