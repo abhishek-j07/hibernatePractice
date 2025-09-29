@@ -21,6 +21,8 @@ public class Main {
         config.addAnnotatedClass(StudentAddress.class);
         config.addAnnotatedClass(Answer.class);
         config.addAnnotatedClass(Question.class);
+        config.addAnnotatedClass(Employee.class);
+        config.addAnnotatedClass(Project.class);
 
         SessionFactory factory = config.buildSessionFactory();
         Session session = factory.openSession();
@@ -35,7 +37,9 @@ public class Main {
 
         //oneToOneMapping(session);
 
-        oneToManyMapping(session);
+        //oneToManyMapping(session);
+
+        manyToManyMapping(session);
 
         transaction.commit();
 
@@ -155,5 +159,61 @@ public class Main {
         session.persist(answer2);
         session.persist(answer3);
         session.persist(question);
+    }
+
+    private static void manyToManyMapping(Session session) {
+
+        Employee employee = new Employee();
+        employee.setEmployeeName("Aditya");
+
+        Employee employee1 = new Employee();
+        employee1.setEmployeeName("Abhi");
+
+        Project project = new Project();
+        project.setProjectName("Java");
+
+        Project project1 = new Project();
+        project1.setProjectName("React");
+
+        Project project2 = new Project();
+        project2.setProjectName("ML");
+
+        Project project3 = new Project();
+        project3.setProjectName("AI");
+
+        Project project4 = new Project();
+        project4.setProjectName("RUST");
+
+        List<Project> e1Projects = new ArrayList<>();
+        e1Projects.add(project1);
+        e1Projects.add(project2);
+        e1Projects.add(project3);
+
+        employee.setProjects(e1Projects);
+
+        List<Project> e2Projects = new ArrayList<>();
+        e2Projects.add(project3);
+        e2Projects.add(project4);
+        e2Projects.add(project);
+
+        employee1.setProjects(e2Projects);
+
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(employee);
+        employeeList.add(employee1);
+
+        project.setEmployees(employeeList);
+
+        session.persist(project);
+        session.persist(project1);
+        session.persist(project2);
+        session.persist(project3);
+        session.persist(project4);
+
+        session.persist(employee);
+        session.persist(employee1);
+
+
+
     }
 }
