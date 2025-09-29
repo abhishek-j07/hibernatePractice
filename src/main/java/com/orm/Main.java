@@ -8,7 +8,9 @@ import org.hibernate.cfg.Configuration;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,7 +33,9 @@ public class Main {
 
         //embedDemo(session);
 
-        oneToOneMapping(session);
+        //oneToOneMapping(session);
+
+        oneToManyMapping(session);
 
         transaction.commit();
 
@@ -117,9 +121,39 @@ public class Main {
         Answer answer = new Answer();
         answer.setAnswer("Java is a programming language");
 
-        question.setAnswer(answer);
+        //question.setAnswer(answer);
 
         session.persist(answer);
+        session.persist(question);
+    }
+
+    private static void oneToManyMapping(Session session) {
+
+        Question question = new Question();
+        question.setQuestion("What is JAVA?");
+
+        Answer answer = new Answer();
+        answer.setAnswer("Java is a programming language");
+        answer.setQuestion(question);
+
+        Answer answer2 = new Answer();
+        answer2.setAnswer("OOPs bases language");
+        answer2.setQuestion(question);
+
+        Answer answer3 = new Answer();
+        answer3.setAnswer("Java is a secured language");
+        answer3.setQuestion(question);
+
+        List<Answer> answers = new ArrayList<Answer>();
+        answers.add(answer);
+        answers.add(answer2);
+        answers.add(answer3);
+
+        question.setAnswers(answers);
+
+        session.persist(answer);
+        session.persist(answer2);
+        session.persist(answer3);
         session.persist(question);
     }
 }

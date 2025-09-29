@@ -14,7 +14,11 @@ public class Answer {
     @Column(name = "ANSWER")
     private String answer;
 
-    @OneToOne(mappedBy = "answer")
+    /*@OneToOne(mappedBy = "answer")
+    private Question question;*/
+
+    @ManyToOne
+    @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
     public int getAnswerId() {
