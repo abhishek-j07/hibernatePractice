@@ -20,7 +20,8 @@ public class Question {
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;*/
 
-    @OneToMany(mappedBy = "question")
+    //used to fetch answers eagerly when we will fetch questions
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     private List<Answer> answers;
 
     public int getQuestionId() {

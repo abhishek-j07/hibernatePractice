@@ -39,7 +39,9 @@ public class Main {
 
         //oneToManyMapping(session);
 
-        manyToManyMapping(session);
+        //manyToManyMapping(session);
+
+        lazyAndEagerLoading(session);
 
         transaction.commit();
 
@@ -212,8 +214,44 @@ public class Main {
 
         session.persist(employee);
         session.persist(employee1);
+    }
 
+    private static void lazyAndEagerLoading(Session session) {
 
+        Question question = new Question();
+        question.setQuestion("What is JAVA?");
 
+        Answer answer = new Answer();
+        answer.setAnswer("Java is a programming language");
+        answer.setQuestion(question);
+
+        Answer answer2 = new Answer();
+        answer2.setAnswer("OOPs bases language");
+        answer2.setQuestion(question);
+
+        Answer answer3 = new Answer();
+        answer3.setAnswer("Java is a secured language");
+        answer3.setQuestion(question);
+
+        List<Answer> answers = new ArrayList<Answer>();
+        answers.add(answer);
+        answers.add(answer2);
+        answers.add(answer3);
+
+        question.setAnswers(answers);
+
+        session.persist(answer);
+        session.persist(answer2);
+        session.persist(answer3);
+        session.persist(question);
+
+        // not fetch answers within
+        Question q = (Question) session.find(Question.class, 1);
+
+        System.out.println(q.getQuestion());
+        System.out.println(q.getQuestionId());
+
+        // lazy loading here once we call getAnswers
+        //System.out.println(q.getAnswers().size());
     }
 }
