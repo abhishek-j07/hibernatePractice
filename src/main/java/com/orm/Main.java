@@ -1,5 +1,6 @@
 package com.orm;
 
+import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,9 +9,7 @@ import org.hibernate.cfg.Configuration;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -43,7 +42,9 @@ public class Main {
 
         //lazyAndEagerLoading(session);
 
-        hibernateObjectStates(session);
+        //hibernateObjectStates(session);
+
+        hqlQuery(session);
 
         transaction.commit();
 
@@ -280,5 +281,38 @@ public class Main {
         //session.close();
         //detached state - wont update this in db
         //student.setLastName("Mahim");
+    }
+
+    private static void hqlQuery(Session session) {
+
+        String query = "from Students as s where s.firstName = :x";
+
+        Query q = session.createQuery(query);
+        q.setParameter("x", "Abhi");
+
+        //single result
+
+        //multiple result
+        List<Students> studentsList = q.getResultList();
+
+        for (Students student : studentsList) {
+            System.out.println(student.getFirstName() + " - " + student.getCertificate());
+        }
+
+        /*Query deleteQuery = session.createQuery("" +
+                "delete Students s where s.firstName = :x");
+        deleteQuery.setParameter("x", "Abhi");
+        int r =  deleteQuery.executeUpdate();
+        System.out.println(r);*/
+
+        Query joinQuery = session.createQuery("select q.questionId, a.answer" +
+                " from Question as q INNER JOIN " +
+                "q.answers as a");
+
+        List<Object[]> list = joinQuery.getResultList();
+
+        for(Object[] obj : list){
+            System.out.println(Arrays.toString(obj));
+        }
     }
 }
