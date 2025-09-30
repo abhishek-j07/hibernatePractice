@@ -41,7 +41,9 @@ public class Main {
 
         //manyToManyMapping(session);
 
-        lazyAndEagerLoading(session);
+        //lazyAndEagerLoading(session);
+
+        hibernateObjectStates(session);
 
         transaction.commit();
 
@@ -253,5 +255,30 @@ public class Main {
 
         // lazy loading here once we call getAnswers
         //System.out.println(q.getAnswers().size());
+    }
+
+    private static void hibernateObjectStates(Session session) {
+
+
+        //transient state
+        Students student = new Students();
+        student.setFirstName("Aditya");
+        student.setLastName("M");
+        student.setAge(29);
+        student.setTech("AI");
+
+        Certificate certificate = new Certificate();
+        certificate.setDuration(3);
+        certificate.setCourse("Java");
+
+        student.setCertificate(certificate);
+
+        //persistent state - both in session and db
+        session.persist(student);
+        student.setFirstName("Abhi");
+
+        //session.close();
+        //detached state - wont update this in db
+        //student.setLastName("Mahim");
     }
 }
