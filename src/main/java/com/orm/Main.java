@@ -1,9 +1,11 @@
 package com.orm;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
@@ -57,7 +59,9 @@ public class Main {
 
         //firstLevelCache(session);
 
-        secondLevelCache(factory);
+        //secondLevelCache(factory);
+
+        criteriaAPI(session);
 
         transaction.commit();
 
@@ -416,5 +420,17 @@ public class Main {
         Students students2 = session2.find(Students.class, 23);
         System.out.println(students2);
         session1.close();
+    }
+
+    private static void criteriaAPI(Session session) {
+
+        Criteria c = session.createCriteria(Students.class);
+        c.add(Restrictions.eq("tech","Tech 0"));
+
+        List<Students> studentsList = c.list();
+
+        for(Students student : studentsList){
+            System.out.println(student.getFirstName() + " - " + student.getCertificate().getCourse());
+        }
     }
 }
