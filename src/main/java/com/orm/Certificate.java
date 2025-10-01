@@ -35,4 +35,13 @@ public class Certificate {
                 ", duration=" + duration +
                 '}';
     }
+
+    public Certificate(String course, int duration) {
+        this.course = course;
+        this.duration = duration;
+    }
+
+    public Certificate() {
+
+    }
 }

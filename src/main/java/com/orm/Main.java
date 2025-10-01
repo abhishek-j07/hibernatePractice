@@ -1,10 +1,10 @@
 package com.orm;
 
-import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,7 +44,11 @@ public class Main {
 
         //hibernateObjectStates(session);
 
-        hqlQuery(session);
+        //hqlQuery(session);
+
+        //insertMultipleRowsInDB(session);
+
+        hqlPagination(session);
 
         transaction.commit();
 
@@ -113,9 +117,7 @@ public class Main {
         students.setAge(29);
         students.setTech("AI");
 
-        Certificate certificate = new Certificate();
-        certificate.setCourse("AI/ML");
-        certificate.setDuration(3);
+        Certificate certificate = new Certificate("AI",3);
 
         students.setCertificate(certificate);
 
@@ -268,15 +270,12 @@ public class Main {
         student.setAge(29);
         student.setTech("AI");
 
-        Certificate certificate = new Certificate();
-        certificate.setDuration(3);
-        certificate.setCourse("Java");
-
+        Certificate certificate = new Certificate("Java",3);
         student.setCertificate(certificate);
 
         //persistent state - both in session and db
         session.persist(student);
-        student.setFirstName("Abhi");
+        //student.setFirstName("Abhi");
 
         //session.close();
         //detached state - wont update this in db
@@ -313,6 +312,38 @@ public class Main {
 
         for(Object[] obj : list){
             System.out.println(Arrays.toString(obj));
+        }
+    }
+
+    private static void hqlPagination(Session session) {
+
+        String query = "from Students";
+
+        Query<Students> q = session.createQuery(query);
+
+        q.setFirstResult(5);
+        q.setMaxResults(10);
+
+        List<Students> studentsList = q.list();
+
+        for(Students student : studentsList){
+            System.out.println(student.getFirstName() + " - " + student.getCertificate().getCourse());
+        }
+
+    }
+
+    private static void insertMultipleRowsInDB(Session session) {
+
+        for(int i = 0 ; i < 50 ; i++){
+
+            Students student = new Students();
+            student.setFirstName("StudentFirstName " + String.valueOf(i));
+            student.setLastName("StudentLastName " + String.valueOf(i));
+            student.setAge(i+10);
+            student.setTech("Tech " + String.valueOf(i));
+            student.setCertificate(new Certificate("Course" + String.valueOf(i), i+2));
+
+            session.persist(student);
         }
     }
 }
