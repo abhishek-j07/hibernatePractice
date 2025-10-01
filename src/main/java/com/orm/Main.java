@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import java.io.FileInputStream;
@@ -48,7 +49,9 @@ public class Main {
 
         //insertMultipleRowsInDB(session);
 
-        hqlPagination(session);
+        //hqlPagination(session);
+
+        nativeSqlQuery(session);
 
         transaction.commit();
 
@@ -344,6 +347,18 @@ public class Main {
             student.setCertificate(new Certificate("Course" + String.valueOf(i), i+2));
 
             session.persist(student);
+        }
+    }
+
+    private static void nativeSqlQuery(Session session) {
+
+        String query = "select * from Students";
+        NativeQuery nq = session.createNativeQuery(query);
+
+        List<Object[]> studentsList = nq.list();
+
+        for(Object[] student : studentsList){
+            System.out.println(student[4] + " - " + student[5]);
         }
     }
 }
