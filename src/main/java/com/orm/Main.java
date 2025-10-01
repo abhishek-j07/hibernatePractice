@@ -53,7 +53,11 @@ public class Main {
 
         //nativeSqlQuery(session);
 
-        cascading(session);
+        //cascading(session);
+
+        //firstLevelCache(session);
+
+        secondLevelCache(factory);
 
         transaction.commit();
 
@@ -387,5 +391,30 @@ public class Main {
 
         session.persist(q1);
 
+    }
+
+    private static void firstLevelCache(Session session) {
+
+        //by default enabled
+
+        Students student1 = session.find(Students.class, 23);
+
+        //this tome query won't be fired again
+        Students student2 = session.find(Students.class, 23);
+        System.out.println(session.contains(student2));
+
+    }
+
+    private static void secondLevelCache(SessionFactory sf) {
+
+        Session session1 = sf.openSession();
+        Students students1 = session1.find(Students.class, 23);
+        System.out.println(students1);
+        session1.close();
+
+        Session session2 = sf.openSession();
+        Students students2 = session2.find(Students.class, 23);
+        System.out.println(students2);
+        session1.close();
     }
 }

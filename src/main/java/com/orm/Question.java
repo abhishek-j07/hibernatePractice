@@ -1,6 +1,6 @@
 package com.orm;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.List;
 

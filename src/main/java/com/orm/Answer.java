@@ -1,6 +1,7 @@
 package com.orm;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ANSWERS")

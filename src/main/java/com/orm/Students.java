@@ -1,9 +1,12 @@
 package com.orm;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "Students")
+@javax.persistence.Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Students {
 
     @Id
