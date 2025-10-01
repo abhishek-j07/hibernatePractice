@@ -21,7 +21,8 @@ public class Question {
     private Answer answer;*/
 
     //used to fetch answers eagerly when we will fetch questions
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER,
+    cascade = CascadeType.ALL)
     private List<Answer> answers;
 
     public int getQuestionId() {

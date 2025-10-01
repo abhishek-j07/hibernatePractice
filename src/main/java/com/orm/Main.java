@@ -51,7 +51,9 @@ public class Main {
 
         //hqlPagination(session);
 
-        nativeSqlQuery(session);
+        //nativeSqlQuery(session);
+
+        cascading(session);
 
         transaction.commit();
 
@@ -360,5 +362,30 @@ public class Main {
         for(Object[] student : studentsList){
             System.out.println(student[4] + " - " + student[5]);
         }
+    }
+
+    private static void cascading(Session session) {
+
+        Question q1 = new Question();
+        q1.setQuestion("What is Cascading ?");
+
+        Answer answer1 = new Answer();
+        answer1.setAnswer("Cascading is a concept");
+
+        Answer answer2 = new Answer();
+        answer2.setAnswer("Cascading is a tech concept");
+
+        Answer answer3 = new Answer();
+        answer3.setAnswer("Cascading is a important concept");
+
+        List<Answer> answersList = new ArrayList<>();
+        answersList.add(answer1);
+        answersList.add(answer2);
+        answersList.add(answer3);
+
+        q1.setAnswers(answersList);
+
+        session.persist(q1);
+
     }
 }
